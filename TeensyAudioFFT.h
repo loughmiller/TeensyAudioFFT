@@ -23,6 +23,7 @@ extern float magnitudes[FFT_SIZE];
 extern int sampleCounter;
 extern int audioInputPin;
 
+extern void TeensyAudioFFTSetup(uint8_t audioInputPin);
 extern float readIntensity(uint16_t lowBin, uint16_t highBin);
 extern void samplingBegin();
 extern void updateMagnitudes();

@@ -10,6 +10,15 @@ int sampleCounter;
 int audioInputPin;
 
 ////////////////////////////////////////////////////////////////////////////////
+// SEUP
+////////////////////////////////////////////////////////////////////////////////
+void TeensyAudioFFTSetup(uint8_t audioInputPin) {
+  pinMode(audioInputPin, INPUT);
+  analogReadResolution(ANALOG_READ_RESOLUTION);
+  analogReadAveraging(ANALOG_READ_AVERAGING);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // READ INTENSITY
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -31,7 +40,8 @@ float readIntensity(uint16_t lowBin, uint16_t highBin) {
   windowMean(magnitudes, lowBin, highBin, &intensity, &otherMean);
 
   // Convert intensity to decibels.
-  intensity = 20.0*log10(intensity);
+  // intensity = 20.0*log10(intensity);
+  return 20.0*log10(intensity);
   // Scale the intensity and clamp between 0 and 1.0.
   intensity -= SPECTRUM_MIN_DB;
   intensity = intensity < 0.0 ? 0.0 : intensity;
