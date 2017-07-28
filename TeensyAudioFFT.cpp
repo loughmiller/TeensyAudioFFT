@@ -13,11 +13,11 @@ int audioInputPin;
 // READ INTENSITY
 ////////////////////////////////////////////////////////////////////////////////
 
-// Bin 0 is apparently the magnitudes of the whole range
-// Bin 1 starts at 0
+// Bin 0 is the magnitude or the whole thing according to documentation
+// Bin 1 starts at 0Hz
 // Bin size can be determined by sampleRateHz/FFT_size
 // Example of 9000Hz / 256 = 35.15Hz,
-// so bin 1 is 0 to 35.15, bin 2 is 35.15 to 70.30
+// so bin 1 is 0Hz to 35.15Hz, bin 2 is 35.15Hz to 70.30Hz
 // lowBin and highBin are inclusive
 float readIntensity(uint16_t lowBin, uint16_t highBin) {
   // See if there is new data available, if so, run the calcs
