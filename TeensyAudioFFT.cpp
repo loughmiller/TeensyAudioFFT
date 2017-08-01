@@ -6,16 +6,66 @@
 IntervalTimer samplingTimer;
 float samples[FFT_SIZE*2];
 float magnitudes[FFT_SIZE];
-int sampleCounter;
-int audioInputPin;
+uint16_t sampleCounter;
+uint8_t audioInputPin;
+
+uint16_t decibleSampleInterval;
+uint32_t lastDecibleSampleTime;
+uint8_t maxDecibles;
+uint8_t minDecibles;
+uint8_t movingAvgMaxDecibles;
+uint8_t movingAvgMinDecibles;
+float movingAvgAlpha;
 
 ////////////////////////////////////////////////////////////////////////////////
-// SEUP
+// SETUP
 ////////////////////////////////////////////////////////////////////////////////
 void TeensyAudioFFTSetup(uint8_t audioInputPin) {
+  decibleSampleInterval = 1000;
+  lastDecibleSampleTime = 0;
+  maxDecibles = 0;
+  minDecibles = 200;
+  movingAvgMaxDecibles = 80;
+  movingAvgMinDecibles = 40;
+  movingAvgAlpha = 0.2;
+
   pinMode(audioInputPin, INPUT);
   analogReadResolution(ANALOG_READ_RESOLUTION);
   analogReadAveraging(ANALOG_READ_AVERAGING);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// READ RELATIVE INTENSITY
+//
+// Must be called every loop
+////////////////////////////////////////////////////////////////////////////////
+float readRelativeIntensity(uint32_t currentTime, uint8_t lowBin, uint8_t highBin) {
+  float intensity = readIntensity(lowBin, highBin);
+  maxDecibles = max(maxDecibles, intensity);
+  minDecibles = min(minDecibles, intensity);
+
+  if (currentTime > (lastDecibleSampleTime + decibleSampleInterval)) {
+    lastDecibleSampleTime = currentTime;
+    movingAvgMaxDecibles = (movingAvgAlpha * maxDecibles) +
+      ((1 - movingAvgAlpha) * movingAvgMaxDecibles);
+    movingAvgMinDecibles = (movingAvgAlpha * minDecibles) +
+      ((1 - movingAvgAlpha) * movingAvgMinDecibles);
+
+    // reset min/max
+    maxDecibles = 0;
+    minDecibles = 200;
+
+    // Serial.print(intensity);
+    // Serial.print(" - ");
+    // Serial.print(movingAvgMinDecibles);
+    // Serial.print(" - ");
+    // Serial.println(movingAvgMaxDecibles);
+  }
+
+  float relativeIntesity = intensity - (movingAvgMinDecibles * 1.1);
+  relativeIntesity = relativeIntesity < 0.0 ? 0.0 : relativeIntesity;
+  relativeIntesity /= (movingAvgMaxDecibles - (movingAvgMinDecibles * 1.1));
+  return relativeIntesity;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,9 +140,6 @@ bool samplingIsDone() {
 ////////////////////////////////////////////////////////////////////////////////
 // UTILITY FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
-void setAudioInputPin(int pin) {
-  audioInputPin = pin;
-}
 
 // Compute the average magnitude of a target frequency window vs. all other
 // frequencies.

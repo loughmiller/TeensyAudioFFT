@@ -17,13 +17,26 @@
 #define ANALOG_READ_RESOLUTION 10    // Bits of resolution for the ADC.
 #define ANALOG_READ_AVERAGING 16     // Number of samples to average with each ADC reading.
 
+
+// general state
 extern IntervalTimer samplingTimer;
 extern float samples[FFT_SIZE*2];
 extern float magnitudes[FFT_SIZE];
-extern int sampleCounter;
-extern int audioInputPin;
+extern uint16_t sampleCounter;
+extern uint8_t audioInputPin;
 
+// stuff for the moving average
+extern uint16_t decibleSampleInterval;
+extern uint32_t lastDecibleSampleTime;
+extern uint8_t maxDecibles;
+extern uint8_t minDecibles;
+extern uint8_t movingAvgMaxDecibles;
+extern uint8_t movingAvgMinDecibles;
+extern float movingAvgAlpha;
+
+// functions
 extern void TeensyAudioFFTSetup(uint8_t audioInputPin);
+float readRelativeIntensity(uint32_t currentTime, uint8_t lowBin, uint8_t highBin);
 extern float readIntensity(uint16_t lowBin, uint16_t highBin);
 extern void samplingBegin();
 extern void updateMagnitudes();
