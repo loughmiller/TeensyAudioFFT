@@ -27,7 +27,7 @@ void TeensyAudioFFTSetup(uint8_t audioInputPin) {
   minDecibles = 200;
   movingAvgMaxDecibles = 80;
   movingAvgMinDecibles = 40;
-  movingAvgAlpha = 0.2;
+  movingAvgAlpha = 0.4;
 
   pinMode(audioInputPin, INPUT);
   analogReadResolution(ANALOG_READ_RESOLUTION);
@@ -62,9 +62,9 @@ float readRelativeIntensity(uint32_t currentTime, uint8_t lowBin, uint8_t highBi
     // Serial.println(movingAvgMaxDecibles);
   }
 
-  float relativeIntesity = intensity - (movingAvgMinDecibles * 1.1);
+  float relativeIntesity = intensity - (movingAvgMinDecibles);
   relativeIntesity = relativeIntesity < 0.0 ? 0.0 : relativeIntesity;
-  relativeIntesity /= (movingAvgMaxDecibles - (movingAvgMinDecibles * 1.1));
+  relativeIntesity /= (movingAvgMaxDecibles - (movingAvgMinDecibles));
   return relativeIntesity;
 }
 
