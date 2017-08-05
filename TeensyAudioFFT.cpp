@@ -27,7 +27,7 @@ void TeensyAudioFFTSetup(uint8_t audioInputPin) {
   minDecibles = 200;
   movingAvgMaxDecibles = 80;
   movingAvgMinDecibles = 40;
-  movingAvgAlpha = 0.4;
+  movingAvgAlpha = 0.35;
 
   pinMode(audioInputPin, INPUT);
   analogReadResolution(ANALOG_READ_RESOLUTION);

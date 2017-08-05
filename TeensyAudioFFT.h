@@ -7,11 +7,13 @@
 #include <arm_math.h>
 #include <Arduino.h>
 
-#define SAMPLE_RATE_HZ 9000          // Sample rate of the audio in hertz.
+#define SAMPLE_RATE_HZ 7680          // Sample rate of the audio in hertz.
+#define FFT_SIZE 256                 // Size of the FFT.  Realistically can only be at most 256
+                                     // 30Hz per bin
+                                     
 #define SPECTRUM_MIN_DB 40.0         // Audio intensity (in decibels) that maps to low LED brightness.
 #define SPECTRUM_MAX_DB 70.0         // Audio intensity (in decibels) that maps to high LED brightness.
 
-#define FFT_SIZE 256                 // Size of the FFT.  Realistically can only be at most 256
 #define SAMPLE_SIZE FFT_SIZE*2       // Complex FFT functions require a coefficient for the imaginary part of the
                                      // input.  This makes the sample array 2x the FFT_SIZE
 #define ANALOG_READ_RESOLUTION 10    // Bits of resolution for the ADC.
