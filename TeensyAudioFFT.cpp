@@ -20,7 +20,8 @@ float movingAvgAlpha;
 ////////////////////////////////////////////////////////////////////////////////
 // SETUP
 ////////////////////////////////////////////////////////////////////////////////
-void TeensyAudioFFTSetup(uint8_t audioInputPin) {
+void TeensyAudioFFTSetup(uint8_t aip) {
+  audioInputPin = aip;
   decibleSampleInterval = 1000;
   lastDecibleSampleTime = 0;
   maxDecibles = 0;
@@ -54,17 +55,22 @@ float readRelativeIntensity(uint32_t currentTime, uint8_t lowBin, uint8_t highBi
     // reset min/max
     maxDecibles = 0;
     minDecibles = 200;
-
-    // Serial.print(intensity);
-    // Serial.print(" - ");
-    // Serial.print(movingAvgMinDecibles);
-    // Serial.print(" - ");
-    // Serial.println(movingAvgMaxDecibles);
   }
 
   float relativeIntesity = intensity - (movingAvgMinDecibles);
   relativeIntesity = relativeIntesity < 0.0 ? 0.0 : relativeIntesity;
   relativeIntesity /= (movingAvgMaxDecibles - (movingAvgMinDecibles));
+  relativeIntesity = relativeIntesity > 1.0 ? 1.0 : relativeIntesity;
+
+  // Serial.print(currentTime);
+  // Serial.print(" - ");
+  // Serial.print(intensity);
+  // Serial.print(" - ");
+  // Serial.print(movingAverageIntensity);
+  // Serial.print(" - ");
+  // Serial.print(audioInputPin);
+  // Serial.print(" - ");
+  // Serial.println(relativeIntesity);
   return relativeIntesity;
 }
 
