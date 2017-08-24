@@ -1,13 +1,13 @@
 #include "TeensyAudioFFT.h"
 
 TeensyAudioFFT::TeensyAudioFFT () {
-      this->alpha = 0.35;
-      this->movingMax = 80;
-      this->movingMin = 40;
-      this->currentMax = 0;
-      this->currentMin = 1000000000000;
-      this->sampleInterval = 1000;
-      this->lastSampleTime = 0;
+  this->alpha = 0.35;
+  this->movingMax = 80;
+  this->movingMin = 40;
+  this->currentMax = 0;
+  this->currentMin = 1000000000000;
+  this->sampleInterval = 1000;
+  this->lastSampleTime = 0;
 }
 
 void TeensyAudioFFT::updateRelativeIntensities(uint32_t currentTime) {
