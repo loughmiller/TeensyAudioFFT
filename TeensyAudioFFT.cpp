@@ -12,15 +12,13 @@ TeensyAudioFFT::TeensyAudioFFT () {
 
 void TeensyAudioFFT::updateRelativeIntensities(uint32_t currentTime) {
   float intensities[FFT_SIZE];
-  float maxDecibels = 50; // max floor of 40
+  float maxDecibels = 60;
   float minDecibels = 200;
-  float minFloor = 40;
+
 
   for (uint16_t i=1; i<FFT_SIZE; i++) {
     float decibels = 20.0*log10(magnitudes[i]);
     maxDecibels = max(decibels, maxDecibels);
-    minDecibels = min(decibels, minDecibels);
-    minDecibels = max(minFloor, minDecibels);
 
     // Serial.print(i);
     // Serial.print(" = ");
@@ -32,7 +30,10 @@ void TeensyAudioFFT::updateRelativeIntensities(uint32_t currentTime) {
   }
 
   maxDecibels = max(this->currentMax, maxDecibels);
-  minDecibels = min(this->currentMin, minDecibels);
+  // min can not be easily collected, often gets very low values
+  // so minDecibels gets used
+  // should use 5th & 95th percentiles as min / max
+  minDecibels = maxDecibels/2.0;
 
   // Serial.print(minDecibels);
   // Serial.print(" - ");
