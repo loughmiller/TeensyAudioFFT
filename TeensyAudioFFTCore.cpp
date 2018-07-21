@@ -33,6 +33,8 @@ void TeensyAudioFFTSetup(uint8_t aip) {
   pinMode(audioInputPin, INPUT);
   analogReadResolution(ANALOG_READ_RESOLUTION);
   analogReadAveraging(ANALOG_READ_AVERAGING);
+
+  Serial.println("TeensyAudioFFTSetup Complete");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -123,6 +125,7 @@ void samplingCallback() {
   samples[sampleCounter+1] = 0.0;
   // Update sample buffer position and stop after the buffer is filled
   sampleCounter += 2;
+
   if (sampleCounter >= SAMPLE_SIZE) {
     samplingTimer.end();
   }

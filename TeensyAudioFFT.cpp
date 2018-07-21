@@ -20,7 +20,7 @@ void TeensyAudioFFT::updateRelativeIntensities(uint32_t currentTime) {
     float decibels = 20.0*log10(magnitudes[i]);
     maxDecibels = max(decibels, maxDecibels);
 
-    // Serial.print(j);
+    // Serial.print(i);
     // Serial.print(" = ");
     // Serial.print(decibels);
     // Serial.print(" | ");
