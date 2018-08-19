@@ -7,9 +7,9 @@
 #include <arm_math.h>
 #include <Arduino.h>
 
-#define SAMPLE_RATE_HZ 6400          // Sample rate of the audio in hertz.
+#define SAMPLE_RATE_HZ 3200          // Sample rate of the audio in hertz.
 #define FFT_SIZE 256                 // Size of the FFT.  Realistically can only be at most 256
-                                     // 25Hz per bin
+                                     // 12.5Hz per bin
 
 #define SAMPLE_SIZE FFT_SIZE*2       // Complex FFT functions require a coefficient for the imaginary part of the
                                      // input.  This makes the sample array 2x the FFT_SIZE

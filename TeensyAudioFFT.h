@@ -2,6 +2,9 @@
 // #include <algorithm>
 #include "TeensyAudioFFTCore.h"
 
+#define MIN_BIN 9   // minimum bin to pay attention to
+                      // bin 0 = full Spectrum
+
 class TeensyAudioFFT {
   private :
     float alpha;

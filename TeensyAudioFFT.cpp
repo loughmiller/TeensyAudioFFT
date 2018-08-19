@@ -16,7 +16,7 @@ void TeensyAudioFFT::updateRelativeIntensities(uint32_t currentTime) {
   float minDecibels = 200;
 
 
-  for (uint16_t i=3; i<FFT_SIZE; i++) {
+  for (uint16_t i=MIN_BIN; i<FFT_SIZE/2; i++) {
     float decibels = 20.0*log10(magnitudes[i]);
     maxDecibels = max(decibels, maxDecibels);
 
