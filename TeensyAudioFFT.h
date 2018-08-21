@@ -2,8 +2,9 @@
 // #include <algorithm>
 #include "TeensyAudioFFTCore.h"
 
-#define MIN_BIN 9   // minimum bin to pay attention to
-                      // bin 0 = full Spectrum
+#define MIN_BIN 7   // minimum bin to pay attention to
+                    // bin 0 = full Spectrum
+                    // should be 75Hz at current settins
 
 class TeensyAudioFFT {
   private :

@@ -16,7 +16,7 @@ void TeensyAudioFFT::updateRelativeIntensities(uint32_t currentTime) {
   float minDecibels = 200;
 
 
-  for (uint16_t i=MIN_BIN; i<FFT_SIZE/2; i++) {
+  for (uint16_t i=MIN_BIN; i<FFT_SIZE/4; i++) {  // ignore the top half
     float decibels = 20.0*log10(magnitudes[i]);
     maxDecibels = max(decibels, maxDecibels);
 
@@ -51,13 +51,13 @@ void TeensyAudioFFT::updateRelativeIntensities(uint32_t currentTime) {
     this->currentMin = 1000000000000;
   }
 
-  for (uint16_t i=3; i<FFT_SIZE; i++) {
+  for (uint16_t i=MIN_BIN; i<FFT_SIZE; i++) {
     float decibels = 20.0*log10(magnitudes[i]);
     float relativeIntesity = decibels - this->movingMin;
     relativeIntesity = relativeIntesity < 0.0 ? 0.0 : relativeIntesity;
     relativeIntesity /= (this->movingMax - this->movingMin);
     relativeIntesity = relativeIntesity > 1.0 ? 1.0 : relativeIntesity;
-    this->intensities[i-3] = relativeIntesity;
+    this->intensities[i-MIN_BIN] = relativeIntesity;
     // Serial.print(i);
     // Serial.print(" | ");
     // Serial.println(relativeIntesity);
